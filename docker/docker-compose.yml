@@ -1,0 +1,21 @@
+# chatops-gym environment: a single-container Mattermost (Slack-like OSS app).
+# The environment is a commodity here — the curriculum, graders and validation
+# harness are the project. One `docker compose up -d` and you're done.
+services:
+  mattermost:
+    image: mattermost/mattermost-preview:latest
+    container_name: chatops-gym-mm
+    ports:
+      - "8065:8065"
+    environment:
+      # Keep the preview instance permissive for programmatic seeding.
+      - MM_SERVICESETTINGS_ENABLEOPENSERVER=true
+      - MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION=false
+      - MM_TEAMSETTINGS_MAXUSERSPERTEAM=200
+      - MM_SERVICESETTINGS_ENABLEONBOARDINGFLOW=false
+      - MM_RATELIMITSETTINGS_ENABLE=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8065/api/v4/system/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 60

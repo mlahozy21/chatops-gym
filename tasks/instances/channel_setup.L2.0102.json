@@ -1,0 +1,60 @@
+{
+  "task_id": "channel_setup.L2.0102",
+  "template_id": "channel_setup",
+  "seed": 102,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #launch-review for the launch review workstream: its header should say \"Coordination space \u2014 check pinned items first\" and @sofia should be added to it.",
+  "setup": {
+    "world_seed": 102,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "launch-review",
+      "header": {
+        "type": "text",
+        "value": "Coordination space \u2014 check pinned items first"
+      },
+      "member": "sofia"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "launch-review",
+        "display_name": "launch-review"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "launch-review",
+        "header": "Coordination space \u2014 check pinned items first"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "launch-review",
+        "username": "sofia"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #launch-review"
+      }
+    }
+  ],
+  "meta": {
+    "name": "launch-review",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  },
+  "knob_profile": "hard"
+}

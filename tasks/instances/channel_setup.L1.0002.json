@@ -1,0 +1,40 @@
+{
+  "task_id": "channel_setup.L1.0002",
+  "template_id": "channel_setup",
+  "seed": 2,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #growth-ideas.",
+  "setup": {
+    "world_seed": 2,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-ideas"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-ideas",
+        "display_name": "growth-ideas"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #growth-ideas"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-ideas",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  }
+}

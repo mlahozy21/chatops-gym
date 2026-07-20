@@ -1,0 +1,167 @@
+{
+  "task_id": "rollup_reply.L4.0002",
+  "template_id": "rollup_reply",
+  "seed": 2,
+  "difficulty": "L4",
+  "category": "aggregation",
+  "failure_mode": "observed at L3: pinned answers give strong models an O(1) shortcut \u2014 here the target number exists nowhere and must be computed from de-pinned, status-ambiguous sources",
+  "prompt": "In ~finance, sofia asked for one combined Q3 figure covering marketing budget, tooling budget and events budget. Work out the total from the final approved figures (they're posted in the relevant team channels \u2014 beware of superseded drafts) and reply in the thread of sofia's question with the combined amount.",
+  "setup": {
+    "world_seed": 2,
+    "n_history": 100,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "Can someone give me ONE combined number for our Q3 marketing budget, tooling budget and events budget? I keep seeing partial figures everywhere.",
+        "marker": "root_question"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "arjun",
+        "text": "Confirmed with leadership: marketing budget for Q3 approved at $13,000.",
+        "marker": "final_marketing"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "arjun",
+        "text": "Last year's marketing budget was $1,000, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "ingrid",
+        "text": "If we hadn't cut scope, the marketing budget would be around $13,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "sofia",
+        "text": "Confirmed with leadership: tooling budget for Q3 approved at $61,500.",
+        "marker": "final_product"
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "priya",
+        "text": "First draft had the tooling budget at $61,000, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, the tooling budget would be around $65,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "carlos",
+        "text": "Final events budget approved for Q3: $38,000.",
+        "marker": "final_random"
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "sofia",
+        "text": "First draft had the events budget at $44,000, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "sofia",
+        "text": "Early proposal: events budget at $34,000 \u2014 NOT final."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.rollup_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 112500,
+        "allow_extra": [
+          13000,
+          61500,
+          38000
+        ]
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "marketing"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "product"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "random"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "finance",
+          "must_contain": "ONE combined number",
+          "expect_marker": "root_question"
+        },
+        "text": "Combined Q3 total for marketing budget, tooling budget and events budget: $112,500 ($13,000 + $61,500 + $38,000)."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied with the combined total"
+      }
+    }
+  ],
+  "meta": {
+    "components": [
+      "marketing budget",
+      "tooling budget",
+      "events budget"
+    ],
+    "channels": [
+      "marketing",
+      "product",
+      "random"
+    ],
+    "values": [
+      13000,
+      61500,
+      38000
+    ],
+    "total": 112500,
+    "decoys": [
+      1000,
+      13500,
+      61000,
+      65500,
+      44000,
+      34000
+    ],
+    "ask_channel": "finance",
+    "question": "Can someone give me ONE combined number for our Q3 marketing budget, tooling budget and events budget? I keep seeing partial figures everywhere."
+  }
+}

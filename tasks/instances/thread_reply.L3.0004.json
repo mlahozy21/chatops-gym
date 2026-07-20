@@ -1,0 +1,95 @@
+{
+  "task_id": "thread_reply.L3.0004",
+  "template_id": "thread_reply",
+  "seed": 4,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "There's an unanswered question about the offsite budget in ~marketing. Reply in the thread of that question with the right amount \u2014 you'll find the approved number in ~finance.",
+  "setup": {
+    "world_seed": 4,
+    "n_history": 60,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "priya",
+        "text": "Quick one \u2014 what did the offsite budget end up being for Q3?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 offsite budget approved: $44,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "FYI last year's offsite budget was $39,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "FYI last year's offsite budget was $48,500."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 44000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "marketing"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "marketing",
+          "must_contain": "Quick one \u2014 what did the offsite budget ",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 offsite budget is $44,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "offsite budget",
+    "ask_channel": "marketing",
+    "hide_channel": "finance",
+    "value": 44000,
+    "distractors": [
+      39500,
+      48500
+    ],
+    "question": "Quick one \u2014 what did the offsite budget end up being for Q3?"
+  }
+}

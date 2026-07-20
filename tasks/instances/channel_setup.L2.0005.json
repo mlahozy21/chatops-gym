@@ -1,0 +1,59 @@
+{
+  "task_id": "channel_setup.L2.0005",
+  "template_id": "channel_setup",
+  "seed": 5,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #q3-triage for the q3 triage workstream: its header should say \"Weekly sync notes and action items\" and @yuki should be added to it.",
+  "setup": {
+    "world_seed": 5,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "q3-triage",
+      "header": {
+        "type": "text",
+        "value": "Weekly sync notes and action items"
+      },
+      "member": "yuki"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "q3-triage",
+        "display_name": "q3-triage"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "q3-triage",
+        "header": "Weekly sync notes and action items"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "q3-triage",
+        "username": "yuki"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #q3-triage"
+      }
+    }
+  ],
+  "meta": {
+    "name": "q3-triage",
+    "member": "yuki",
+    "header": "Weekly sync notes and action items"
+  }
+}

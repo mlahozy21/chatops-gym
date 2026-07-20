@@ -1,0 +1,40 @@
+{
+  "task_id": "channel_setup.L1.0005",
+  "template_id": "channel_setup",
+  "seed": 5,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #q3-triage.",
+  "setup": {
+    "world_seed": 5,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "q3-triage"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "q3-triage",
+        "display_name": "q3-triage"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #q3-triage"
+      }
+    }
+  ],
+  "meta": {
+    "name": "q3-triage",
+    "member": "yuki",
+    "header": "Weekly sync notes and action items"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "chatops-gym task instance",
+  "type": "object",
+  "required": ["task_id", "template_id", "seed", "difficulty", "category",
+               "prompt", "setup", "grader", "oracle_solution"],
+  "properties": {
+    "task_id": {"type": "string", "pattern": "^[a-z_]+\\.L[1-4]\\.\\d{4}$"},
+    "template_id": {"type": "string"},
+    "seed": {"type": "integer"},
+    "difficulty": {"enum": ["L1", "L2", "L3", "L4"],
+      "description": "Structural prior; empirical calibration is per-model."},
+    "category": {"type": "string"},
+    "failure_mode": {"type": "string",
+      "description": "The observed agent failure this task targets (see analysis/transcripts/)."},
+    "prompt": {"type": "string"},
+    "setup": {
+      "type": "object",
+      "required": ["world_seed"],
+      "properties": {
+        "world_seed": {"type": "integer"},
+        "n_history": {"type": "integer"},
+        "overlays": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["op"],
+            "properties": {
+              "op": {"enum": ["post_message", "pin_message", "set_channel_header"]},
+              "channel": {"type": "string"},
+              "user": {"type": "string"},
+              "text": {"type": "string"},
+              "header": {"type": "string"},
+              "marker": {"type": "string",
+                "description": "Registers this entity under a stable name. Graders may resolve markers; the oracle may only use them as expect_marker cross-checks."},
+              "root_marker": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "grader": {
+      "type": "object",
+      "required": ["module", "params"],
+      "properties": {
+        "module": {"type": "string"},
+        "params": {"type": "object"}
+      }
+    },
+    "oracle_solution": {
+      "type": "array",
+      "description": "Proof of solvability, executed THROUGH the agent tools by the same user. Reference resolution must be declared via resolve specs (post_in_channel / pinned_post), never taken from setup knowledge.",
+      "items": {
+        "type": "object",
+        "required": ["tool"],
+        "properties": {"tool": {"type": "string"}, "args": {"type": "object"}}
+      }
+    },
+    "meta": {"type": "object",
+      "description": "Template-sampled parameters; used by mutation testing, not by the grader."}
+  }
+}

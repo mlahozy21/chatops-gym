@@ -1,0 +1,167 @@
+{
+  "task_id": "rollup_reply.L4.0004",
+  "template_id": "rollup_reply",
+  "seed": 4,
+  "difficulty": "L4",
+  "category": "aggregation",
+  "failure_mode": "observed at L3: pinned answers give strong models an O(1) shortcut \u2014 here the target number exists nowhere and must be computed from de-pinned, status-ambiguous sources",
+  "prompt": "In ~finance, priya asked for one combined Q3 figure covering marketing budget, tooling budget and travel budget. Work out the total from the final approved figures (they're posted in the relevant team channels \u2014 beware of superseded drafts) and reply in the thread of priya's question with the combined amount.",
+  "setup": {
+    "world_seed": 4,
+    "n_history": 100,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "Can someone give me ONE combined number for our Q3 marketing budget, tooling budget and travel budget? I keep seeing partial figures everywhere.",
+        "marker": "root_question"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "arjun",
+        "text": "Sign-off done \u2014 Q3 marketing budget is $60,000 (final).",
+        "marker": "final_marketing"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "arjun",
+        "text": "Last year's marketing budget was $58,500, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, the marketing budget would be around $52,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "arjun",
+        "text": "Sign-off done \u2014 Q3 tooling budget is $46,000 (final).",
+        "marker": "final_product"
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "arjun",
+        "text": "First draft had the tooling budget at $34,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "sofia",
+        "text": "Last year's tooling budget was $56,500, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "priya",
+        "text": "Final travel budget approved for Q3: $19,500.",
+        "marker": "final_hr"
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "sofia",
+        "text": "First draft had the travel budget at $25,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "ingrid",
+        "text": "First draft had the travel budget at $29,000, superseded since."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.rollup_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 125500,
+        "allow_extra": [
+          60000,
+          46000,
+          19500
+        ]
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "marketing"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "product"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "hr"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "finance",
+          "must_contain": "ONE combined number",
+          "expect_marker": "root_question"
+        },
+        "text": "Combined Q3 total for marketing budget, tooling budget and travel budget: $125,500 ($60,000 + $46,000 + $19,500)."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied with the combined total"
+      }
+    }
+  ],
+  "meta": {
+    "components": [
+      "marketing budget",
+      "tooling budget",
+      "travel budget"
+    ],
+    "channels": [
+      "marketing",
+      "product",
+      "hr"
+    ],
+    "values": [
+      60000,
+      46000,
+      19500
+    ],
+    "total": 125500,
+    "decoys": [
+      58500,
+      52500,
+      34500,
+      56500,
+      25500,
+      29000
+    ],
+    "ask_channel": "finance",
+    "question": "Can someone give me ONE combined number for our Q3 marketing budget, tooling budget and travel budget? I keep seeing partial figures everywhere."
+  }
+}

@@ -1,0 +1,38 @@
+name: validate-curriculum
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - run: python -m pytest tests/ -q
+
+  curriculum:
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - name: Start Mattermost
+        run: docker compose -f docker/docker-compose.yml up -d
+      - name: Wait for health
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8065/api/v4/system/ping && exit 0
+            sleep 3
+          done
+          exit 1
+      - name: Generate instances
+        run: python -m scripts.generate_tasks --per-template 2
+      - name: Validate (oracle=1, mutants=0, null=0, random=0)
+        run: python -m validation.validate_curriculum --random-seeds 1

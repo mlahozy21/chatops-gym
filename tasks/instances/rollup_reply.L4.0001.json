@@ -1,0 +1,167 @@
+{
+  "task_id": "rollup_reply.L4.0001",
+  "template_id": "rollup_reply",
+  "seed": 1,
+  "difficulty": "L4",
+  "category": "aggregation",
+  "failure_mode": "observed at L3: pinned answers give strong models an O(1) shortcut \u2014 here the target number exists nowhere and must be computed from de-pinned, status-ambiguous sources",
+  "prompt": "In ~q3-planning, sofia asked for one combined Q3 figure covering events budget, travel budget and marketing budget. Work out the total from the final approved figures (they're posted in the relevant team channels \u2014 beware of superseded drafts) and reply in the thread of sofia's question with the combined amount.",
+  "setup": {
+    "world_seed": 1,
+    "n_history": 100,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "q3-planning",
+        "user": "sofia",
+        "text": "Can someone give me ONE combined number for our Q3 events budget, travel budget and marketing budget? I keep seeing partial figures everywhere.",
+        "marker": "root_question"
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "carlos",
+        "text": "Sign-off done \u2014 Q3 events budget is $52,500 (final).",
+        "marker": "final_random"
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "ingrid",
+        "text": "Early proposal: events budget at $58,000 \u2014 NOT final."
+      },
+      {
+        "op": "post_message",
+        "channel": "random",
+        "user": "priya",
+        "text": "First draft had the events budget at $46,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "ingrid",
+        "text": "Confirmed with leadership: travel budget for Q3 approved at $59,000.",
+        "marker": "final_hr"
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "carlos",
+        "text": "Last year's travel budget was $66,000, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, the travel budget would be around $53,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "diana",
+        "text": "Confirmed with leadership: marketing budget for Q3 approved at $57,500.",
+        "marker": "final_marketing"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "carlos",
+        "text": "First draft had the marketing budget at $52,000, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "diana",
+        "text": "First draft had the marketing budget at $69,000, superseded since."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.rollup_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 169000,
+        "allow_extra": [
+          52500,
+          59000,
+          57500
+        ]
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "q3-planning"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "random"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "hr"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "marketing"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "q3-planning",
+          "must_contain": "ONE combined number",
+          "expect_marker": "root_question"
+        },
+        "text": "Combined Q3 total for events budget, travel budget and marketing budget: $169,000 ($52,500 + $59,000 + $57,500)."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied with the combined total"
+      }
+    }
+  ],
+  "meta": {
+    "components": [
+      "events budget",
+      "travel budget",
+      "marketing budget"
+    ],
+    "channels": [
+      "random",
+      "hr",
+      "marketing"
+    ],
+    "values": [
+      52500,
+      59000,
+      57500
+    ],
+    "total": 169000,
+    "decoys": [
+      58000,
+      46500,
+      66000,
+      53000,
+      52000,
+      69000
+    ],
+    "ask_channel": "q3-planning",
+    "question": "Can someone give me ONE combined number for our Q3 events budget, travel budget and marketing budget? I keep seeing partial figures everywhere."
+  }
+}

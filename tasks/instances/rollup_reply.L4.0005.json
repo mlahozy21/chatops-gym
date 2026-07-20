@@ -1,0 +1,167 @@
+{
+  "task_id": "rollup_reply.L4.0005",
+  "template_id": "rollup_reply",
+  "seed": 5,
+  "difficulty": "L4",
+  "category": "aggregation",
+  "failure_mode": "observed at L3: pinned answers give strong models an O(1) shortcut \u2014 here the target number exists nowhere and must be computed from de-pinned, status-ambiguous sources",
+  "prompt": "In ~finance, ingrid asked for one combined Q3 figure covering travel budget, marketing budget and cloud spend. Work out the total from the final approved figures (they're posted in the relevant team channels \u2014 beware of superseded drafts) and reply in the thread of ingrid's question with the combined amount.",
+  "setup": {
+    "world_seed": 5,
+    "n_history": 100,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Can someone give me ONE combined number for our Q3 travel budget, marketing budget and cloud spend? I keep seeing partial figures everywhere.",
+        "marker": "root_question"
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "sofia",
+        "text": "Confirmed with leadership: travel budget for Q3 approved at $70,500.",
+        "marker": "final_hr"
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, the travel budget would be around $82,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "hr",
+        "user": "diana",
+        "text": "Last year's travel budget was $69,000, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "diana",
+        "text": "Sign-off done \u2014 Q3 marketing budget is $47,000 (final).",
+        "marker": "final_marketing"
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "arjun",
+        "text": "If we hadn't cut scope, the marketing budget would be around $53,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "marketing",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, the marketing budget would be around $41,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "eng-oncall",
+        "user": "priya",
+        "text": "Confirmed with leadership: cloud spend for Q3 approved at $25,000.",
+        "marker": "final_eng-oncall"
+      },
+      {
+        "op": "post_message",
+        "channel": "eng-oncall",
+        "user": "carlos",
+        "text": "Last year's cloud spend was $27,000, for reference."
+      },
+      {
+        "op": "post_message",
+        "channel": "eng-oncall",
+        "user": "priya",
+        "text": "First draft had the cloud spend at $14,500, superseded since."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.rollup_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 142500,
+        "allow_extra": [
+          70500,
+          47000,
+          25000
+        ]
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "hr"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "marketing"
+      }
+    },
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "eng-oncall"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "finance",
+          "must_contain": "ONE combined number",
+          "expect_marker": "root_question"
+        },
+        "text": "Combined Q3 total for travel budget, marketing budget and cloud spend: $142,500 ($70,500 + $47,000 + $25,000)."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied with the combined total"
+      }
+    }
+  ],
+  "meta": {
+    "components": [
+      "travel budget",
+      "marketing budget",
+      "cloud spend"
+    ],
+    "channels": [
+      "hr",
+      "marketing",
+      "eng-oncall"
+    ],
+    "values": [
+      70500,
+      47000,
+      25000
+    ],
+    "total": 142500,
+    "decoys": [
+      82500,
+      69000,
+      53000,
+      41500,
+      27000,
+      14500
+    ],
+    "ask_channel": "finance",
+    "question": "Can someone give me ONE combined number for our Q3 travel budget, marketing budget and cloud spend? I keep seeing partial figures everywhere."
+  }
+}

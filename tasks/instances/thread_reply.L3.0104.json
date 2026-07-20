@@ -1,0 +1,124 @@
+{
+  "task_id": "thread_reply.L3.0104",
+  "template_id": "thread_reply",
+  "seed": 104,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "There's an unanswered question about the marketing budget in ~q3-planning. Reply in the thread of that question with the right amount \u2014 you'll find the approved number in ~finance.",
+  "setup": {
+    "world_seed": 104,
+    "n_history": 150,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "q3-planning",
+        "user": "priya",
+        "text": "Quick one \u2014 what did the marketing budget end up being for Q3?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 marketing budget approved: $59,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "arjun",
+        "text": "FYI last year's marketing budget was $51,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "diana",
+        "text": "Early draft had the marketing budget at $54,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "FYI last year's marketing budget was $61,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, marketing budget would be around $61,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "diana",
+        "text": "If we hadn't cut scope, marketing budget would be around $57,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "FYI last year's marketing budget was $64,500."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 59000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "q3-planning"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "q3-planning",
+          "must_contain": "Quick one \u2014 what did the marketing budge",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 marketing budget is $59,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "marketing budget",
+    "ask_channel": "q3-planning",
+    "hide_channel": "finance",
+    "value": 59000,
+    "distractors": [
+      51500,
+      54500,
+      61000,
+      61500,
+      57000,
+      64500
+    ],
+    "question": "Quick one \u2014 what did the marketing budget end up being for Q3?"
+  },
+  "knob_profile": "hard"
+}

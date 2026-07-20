@@ -1,0 +1,124 @@
+{
+  "task_id": "thread_reply.L3.0103",
+  "template_id": "thread_reply",
+  "seed": 103,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "There's an unanswered question about the hiring budget in ~product. Reply in the thread of that question with the right amount \u2014 you'll find the approved number in ~finance.",
+  "setup": {
+    "world_seed": 103,
+    "n_history": 150,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "diana",
+        "text": "Does anyone know the final hiring budget for Q3?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 hiring budget approved: $77,500",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "If we hadn't cut scope, hiring budget would be around $80,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "Early draft had the hiring budget at $72,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "If we hadn't cut scope, hiring budget would be around $83,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "FYI last year's hiring budget was $71,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, hiring budget would be around $84,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "FYI last year's hiring budget was $84,500."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 77500
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "product"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "product",
+          "must_contain": "Does anyone know the final hiring budget",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 hiring budget is $77,500."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "hiring budget",
+    "ask_channel": "product",
+    "hide_channel": "finance",
+    "value": 77500,
+    "distractors": [
+      80000,
+      72500,
+      83000,
+      71000,
+      84000,
+      84500
+    ],
+    "question": "Does anyone know the final hiring budget for Q3?"
+  },
+  "knob_profile": "hard"
+}

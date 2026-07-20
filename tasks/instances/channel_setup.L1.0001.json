@@ -1,0 +1,40 @@
+{
+  "task_id": "channel_setup.L1.0001",
+  "template_id": "channel_setup",
+  "seed": 1,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #growth-budget.",
+  "setup": {
+    "world_seed": 1,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-budget"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-budget",
+        "display_name": "growth-budget"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #growth-budget"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-budget",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "task_id": "channel_setup.L2.0004",
+  "template_id": "channel_setup",
+  "seed": 4,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #infra-sync for the infra sync workstream: its header should say \"Weekly sync notes and action items\" and @yuki should be added to it.",
+  "setup": {
+    "world_seed": 4,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "infra-sync",
+      "header": {
+        "type": "text",
+        "value": "Weekly sync notes and action items"
+      },
+      "member": "yuki"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "infra-sync",
+        "display_name": "infra-sync"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "infra-sync",
+        "header": "Weekly sync notes and action items"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "infra-sync",
+        "username": "yuki"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #infra-sync"
+      }
+    }
+  ],
+  "meta": {
+    "name": "infra-sync",
+    "member": "yuki",
+    "header": "Weekly sync notes and action items"
+  }
+}

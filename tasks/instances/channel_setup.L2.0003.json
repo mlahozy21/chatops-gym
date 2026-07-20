@@ -1,0 +1,59 @@
+{
+  "task_id": "channel_setup.L2.0003",
+  "template_id": "channel_setup",
+  "seed": 3,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #infra-ideas for the infra ideas workstream: its header should say \"Coordination space \u2014 check pinned items first\" and @sofia should be added to it.",
+  "setup": {
+    "world_seed": 3,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "infra-ideas",
+      "header": {
+        "type": "text",
+        "value": "Coordination space \u2014 check pinned items first"
+      },
+      "member": "sofia"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "infra-ideas",
+        "display_name": "infra-ideas"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "infra-ideas",
+        "header": "Coordination space \u2014 check pinned items first"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "infra-ideas",
+        "username": "sofia"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #infra-ideas"
+      }
+    }
+  ],
+  "meta": {
+    "name": "infra-ideas",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  }
+}

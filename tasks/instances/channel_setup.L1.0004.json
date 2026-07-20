@@ -1,0 +1,40 @@
+{
+  "task_id": "channel_setup.L1.0004",
+  "template_id": "channel_setup",
+  "seed": 4,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #infra-sync.",
+  "setup": {
+    "world_seed": 4,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "infra-sync"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "infra-sync",
+        "display_name": "infra-sync"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #infra-sync"
+      }
+    }
+  ],
+  "meta": {
+    "name": "infra-sync",
+    "member": "yuki",
+    "header": "Weekly sync notes and action items"
+  }
+}

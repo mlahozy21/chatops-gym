@@ -1,0 +1,95 @@
+{
+  "task_id": "thread_reply.L3.0001",
+  "template_id": "thread_reply",
+  "seed": 1,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "Someone in ~q3-planning asked about the travel budget and never got an answer. Find that message and reply in its thread with the correct figure. The approved figure is recorded somewhere in the ~finance channel.",
+  "setup": {
+    "world_seed": 1,
+    "n_history": 60,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "q3-planning",
+        "user": "priya",
+        "text": "Can someone confirm the approved travel budget for this quarter?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 travel budget approved: $45,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "Early draft had the travel budget at $54,000, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, travel budget would be around $48,000."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 45000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "q3-planning"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "q3-planning",
+          "must_contain": "Can someone confirm the approved travel ",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 travel budget is $45,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "travel budget",
+    "ask_channel": "q3-planning",
+    "hide_channel": "finance",
+    "value": 45000,
+    "distractors": [
+      54000,
+      48000
+    ],
+    "question": "Can someone confirm the approved travel budget for this quarter?"
+  }
+}

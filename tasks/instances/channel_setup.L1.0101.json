@@ -1,0 +1,41 @@
+{
+  "task_id": "channel_setup.L1.0101",
+  "template_id": "channel_setup",
+  "seed": 101,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #launch-triage.",
+  "setup": {
+    "world_seed": 101,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "launch-triage"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "launch-triage",
+        "display_name": "launch-triage"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #launch-triage"
+      }
+    }
+  ],
+  "meta": {
+    "name": "launch-triage",
+    "member": "yuki",
+    "header": "Weekly sync notes and action items"
+  },
+  "knob_profile": "hard"
+}

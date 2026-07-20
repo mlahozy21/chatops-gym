@@ -1,0 +1,124 @@
+{
+  "task_id": "thread_reply.L3.0100",
+  "template_id": "thread_reply",
+  "seed": 100,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "Someone in ~q3-planning asked about the marketing budget and never got an answer. Find that message and reply in its thread with the correct figure. The approved figure is recorded somewhere in the ~finance channel.",
+  "setup": {
+    "world_seed": 100,
+    "n_history": 150,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "q3-planning",
+        "user": "arjun",
+        "text": "Can someone confirm the approved marketing budget for this quarter?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 marketing budget approved: $53,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "diana",
+        "text": "If we hadn't cut scope, marketing budget would be around $59,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "If we hadn't cut scope, marketing budget would be around $45,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "Early draft had the marketing budget at $59,500, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "FYI last year's marketing budget was $48,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "FYI last year's marketing budget was $61,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "Early draft had the marketing budget at $46,000, superseded since."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 53000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "q3-planning"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "q3-planning",
+          "must_contain": "Can someone confirm the approved marketi",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 marketing budget is $53,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "marketing budget",
+    "ask_channel": "q3-planning",
+    "hide_channel": "finance",
+    "value": 53000,
+    "distractors": [
+      59000,
+      45500,
+      59500,
+      48000,
+      61500,
+      46000
+    ],
+    "question": "Can someone confirm the approved marketing budget for this quarter?"
+  },
+  "knob_profile": "hard"
+}

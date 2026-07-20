@@ -1,0 +1,60 @@
+{
+  "task_id": "channel_setup.L2.0100",
+  "template_id": "channel_setup",
+  "seed": 100,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #growth-budget for the growth budget workstream: its header should say \"All updates for the growth budget workstream\" and @priya should be added to it.",
+  "setup": {
+    "world_seed": 100,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-budget",
+      "header": {
+        "type": "text",
+        "value": "All updates for the growth budget workstream"
+      },
+      "member": "priya"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-budget",
+        "display_name": "growth-budget"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "growth-budget",
+        "header": "All updates for the growth budget workstream"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "growth-budget",
+        "username": "priya"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #growth-budget"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-budget",
+    "member": "priya",
+    "header": "All updates for the growth budget workstream"
+  },
+  "knob_profile": "hard"
+}

@@ -1,0 +1,124 @@
+{
+  "task_id": "thread_reply.L3.0102",
+  "template_id": "thread_reply",
+  "seed": 102,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "Someone in ~q3-planning asked about the offsite budget and never got an answer. Find that message and reply in its thread with the correct figure. The approved figure is recorded somewhere in the ~finance channel.",
+  "setup": {
+    "world_seed": 102,
+    "n_history": 150,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "q3-planning",
+        "user": "sofia",
+        "text": "Quick one \u2014 what did the offsite budget end up being for Q3?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 offsite budget approved: $68,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "priya",
+        "text": "FYI last year's offsite budget was $73,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "Early draft had the offsite budget at $76,000, superseded since."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "FYI last year's offsite budget was $64,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, offsite budget would be around $71,000."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, offsite budget would be around $68,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "arjun",
+        "text": "FYI last year's offsite budget was $70,500."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 68000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "q3-planning"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "q3-planning",
+          "must_contain": "Quick one \u2014 what did the offsite budget ",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 offsite budget is $68,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "offsite budget",
+    "ask_channel": "q3-planning",
+    "hide_channel": "finance",
+    "value": 68000,
+    "distractors": [
+      73000,
+      76000,
+      64000,
+      71000,
+      68500,
+      70500
+    ],
+    "question": "Quick one \u2014 what did the offsite budget end up being for Q3?"
+  },
+  "knob_profile": "hard"
+}

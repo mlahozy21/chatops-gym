@@ -1,0 +1,41 @@
+{
+  "task_id": "channel_setup.L1.0103",
+  "template_id": "channel_setup",
+  "seed": 103,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #billing-retro.",
+  "setup": {
+    "world_seed": 103,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "billing-retro"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "billing-retro",
+        "display_name": "billing-retro"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #billing-retro"
+      }
+    }
+  ],
+  "meta": {
+    "name": "billing-retro",
+    "member": "priya",
+    "header": "All updates for the billing retro workstream"
+  },
+  "knob_profile": "hard"
+}

@@ -1,0 +1,41 @@
+{
+  "task_id": "channel_setup.L1.0102",
+  "template_id": "channel_setup",
+  "seed": 102,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #launch-review.",
+  "setup": {
+    "world_seed": 102,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "launch-review"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "launch-review",
+        "display_name": "launch-review"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #launch-review"
+      }
+    }
+  ],
+  "meta": {
+    "name": "launch-review",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  },
+  "knob_profile": "hard"
+}

@@ -1,0 +1,59 @@
+{
+  "task_id": "channel_setup.L2.0001",
+  "template_id": "channel_setup",
+  "seed": 1,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #growth-budget for the growth budget workstream: its header should say \"Coordination space \u2014 check pinned items first\" and @sofia should be added to it.",
+  "setup": {
+    "world_seed": 1,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-budget",
+      "header": {
+        "type": "text",
+        "value": "Coordination space \u2014 check pinned items first"
+      },
+      "member": "sofia"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-budget",
+        "display_name": "growth-budget"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "growth-budget",
+        "header": "Coordination space \u2014 check pinned items first"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "growth-budget",
+        "username": "sofia"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #growth-budget"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-budget",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "task_id": "channel_setup.L2.0002",
+  "template_id": "channel_setup",
+  "seed": 2,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #growth-ideas for the growth ideas workstream: its header should say \"Coordination space \u2014 check pinned items first\" and @sofia should be added to it.",
+  "setup": {
+    "world_seed": 2,
+    "n_history": 40,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-ideas",
+      "header": {
+        "type": "text",
+        "value": "Coordination space \u2014 check pinned items first"
+      },
+      "member": "sofia"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-ideas",
+        "display_name": "growth-ideas"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "growth-ideas",
+        "header": "Coordination space \u2014 check pinned items first"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "growth-ideas",
+        "username": "sofia"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #growth-ideas"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-ideas",
+    "member": "sofia",
+    "header": "Coordination space \u2014 check pinned items first"
+  }
+}

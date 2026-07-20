@@ -1,0 +1,95 @@
+{
+  "task_id": "thread_reply.L3.0002",
+  "template_id": "thread_reply",
+  "seed": 2,
+  "difficulty": "L3",
+  "category": "retrieval_and_action",
+  "failure_mode": "replies in channel instead of thread; picks distractor figure",
+  "prompt": "Someone in ~product asked about the cloud spend cap and never got an answer. Find that message and reply in its thread with the correct figure. The approved figure is recorded somewhere in the ~finance channel.",
+  "setup": {
+    "world_seed": 2,
+    "n_history": 60,
+    "overlays": [
+      {
+        "op": "post_message",
+        "channel": "product",
+        "user": "diana",
+        "text": "Quick one \u2014 what did the cloud spend cap end up being for Q3?",
+        "marker": "root_question"
+      },
+      {
+        "op": "pin_message",
+        "channel": "finance",
+        "user": "ingrid",
+        "text": "Q3 cloud spend cap approved: $97,000",
+        "marker": "answer_pin"
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "carlos",
+        "text": "If we hadn't cut scope, cloud spend cap would be around $96,500."
+      },
+      {
+        "op": "post_message",
+        "channel": "finance",
+        "user": "sofia",
+        "text": "Early draft had the cloud spend cap at $105,000, superseded since."
+      }
+    ]
+  },
+  "grader": {
+    "module": "graders.families.thread_reply",
+    "params": {
+      "root_marker": "root_question",
+      "answer": {
+        "type": "money",
+        "value": 97000
+      },
+      "max_replies": 1
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "read_channel",
+      "args": {
+        "channel": "product"
+      }
+    },
+    {
+      "tool": "get_pinned_messages",
+      "args": {
+        "channel": "finance"
+      }
+    },
+    {
+      "tool": "reply_in_thread",
+      "args": {
+        "root_post_id": {
+          "resolve": "post_in_channel",
+          "channel": "product",
+          "must_contain": "Quick one \u2014 what did the cloud spend cap",
+          "expect_marker": "root_question"
+        },
+        "text": "The approved Q3 cloud spend cap is $97,000."
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "replied in thread with the figure"
+      }
+    }
+  ],
+  "meta": {
+    "topic": "cloud spend cap",
+    "ask_channel": "product",
+    "hide_channel": "finance",
+    "value": 97000,
+    "distractors": [
+      96500,
+      105000
+    ],
+    "question": "Quick one \u2014 what did the cloud spend cap end up being for Q3?"
+  }
+}

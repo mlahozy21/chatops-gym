@@ -1,0 +1,41 @@
+{
+  "task_id": "channel_setup.L1.0104",
+  "template_id": "channel_setup",
+  "seed": 104,
+  "difficulty": "L1",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Create a new public channel named #growth-triage.",
+  "setup": {
+    "world_seed": 104,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "growth-triage"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "growth-triage",
+        "display_name": "growth-triage"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "created #growth-triage"
+      }
+    }
+  ],
+  "meta": {
+    "name": "growth-triage",
+    "member": "liam",
+    "header": "Weekly sync notes and action items"
+  },
+  "knob_profile": "hard"
+}

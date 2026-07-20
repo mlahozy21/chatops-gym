@@ -1,0 +1,60 @@
+{
+  "task_id": "channel_setup.L2.0103",
+  "template_id": "channel_setup",
+  "seed": 103,
+  "difficulty": "L2",
+  "category": "entity_actions",
+  "failure_mode": "entity-name slips; dropped steps in action chains",
+  "prompt": "Set up a new public channel #billing-retro for the billing retro workstream: its header should say \"All updates for the billing retro workstream\" and @priya should be added to it.",
+  "setup": {
+    "world_seed": 103,
+    "n_history": 80,
+    "overlays": []
+  },
+  "grader": {
+    "module": "graders.families.channel_setup",
+    "params": {
+      "channel_name": "billing-retro",
+      "header": {
+        "type": "text",
+        "value": "All updates for the billing retro workstream"
+      },
+      "member": "priya"
+    }
+  },
+  "oracle_solution": [
+    {
+      "tool": "create_channel",
+      "args": {
+        "name": "billing-retro",
+        "display_name": "billing-retro"
+      }
+    },
+    {
+      "tool": "set_channel_header",
+      "args": {
+        "channel": "billing-retro",
+        "header": "All updates for the billing retro workstream"
+      }
+    },
+    {
+      "tool": "invite_user",
+      "args": {
+        "channel": "billing-retro",
+        "username": "priya"
+      }
+    },
+    {
+      "tool": "finish",
+      "args": {
+        "summary": "set up #billing-retro"
+      }
+    }
+  ],
+  "meta": {
+    "name": "billing-retro",
+    "member": "priya",
+    "header": "All updates for the billing retro workstream"
+  },
+  "knob_profile": "hard"
+}
