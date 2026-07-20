@@ -1,0 +1,20 @@
+{"task_id": "channel_setup.L1.0100", "template": "channel_setup", "difficulty": "L1", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 2}
+{"task_id": "channel_setup.L1.0101", "template": "channel_setup", "difficulty": "L1", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 2}
+{"task_id": "channel_setup.L1.0102", "template": "channel_setup", "difficulty": "L1", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 2}
+{"task_id": "channel_setup.L1.0103", "template": "channel_setup", "difficulty": "L1", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 2}
+{"task_id": "channel_setup.L1.0104", "template": "channel_setup", "difficulty": "L1", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 2}
+{"task_id": "channel_setup.L2.0100", "template": "channel_setup", "difficulty": "L2", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "channel_setup.L2.0101", "template": "channel_setup", "difficulty": "L2", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "channel_setup.L2.0102", "template": "channel_setup", "difficulty": "L2", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "channel_setup.L2.0103", "template": "channel_setup", "difficulty": "L2", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "channel_setup.L2.0104", "template": "channel_setup", "difficulty": "L2", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "thread_reply.L3.0100", "template": "thread_reply", "difficulty": "L3", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 5}
+{"task_id": "thread_reply.L3.0101", "template": "thread_reply", "difficulty": "L3", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 5}
+{"task_id": "thread_reply.L3.0102", "template": "thread_reply", "difficulty": "L3", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 3}
+{"task_id": "thread_reply.L3.0103", "template": "thread_reply", "difficulty": "L3", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 5}
+{"task_id": "thread_reply.L3.0104", "template": "thread_reply", "difficulty": "L3", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 3}
+{"task_id": "rollup_reply.L4.0001", "template": "rollup_reply", "difficulty": "L4", "backend": "ollama:qwen2.5:32b", "passed": false, "reason": "no agent reply in the target thread", "n_calls": 20}
+{"task_id": "rollup_reply.L4.0002", "template": "rollup_reply", "difficulty": "L4", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 15}
+{"task_id": "rollup_reply.L4.0003", "template": "rollup_reply", "difficulty": "L4", "backend": "ollama:qwen2.5:32b", "passed": false, "reason": "no agent reply in the target thread", "n_calls": 20}
+{"task_id": "rollup_reply.L4.0004", "template": "rollup_reply", "difficulty": "L4", "backend": "ollama:qwen2.5:32b", "passed": true, "reason": "ok", "n_calls": 11}
+{"task_id": "rollup_reply.L4.0005", "template": "rollup_reply", "difficulty": "L4", "backend": "ollama:qwen2.5:32b", "passed": false, "reason": "no agent reply in the target thread", "n_calls": 20}

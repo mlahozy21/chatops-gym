@@ -1,5 +1,7 @@
 # chatops-gym
 
+[![validate-curriculum](https://github.com/mlahozy21/chatops-gym/actions/workflows/validate.yml/badge.svg)](https://github.com/mlahozy21/chatops-gym/actions)
+
 **A verifiable-task curriculum generator for RL training of software agents**, built on a real Slack-like application (Mattermost) running in a single Docker container.
 
 This is not a benchmark. Benchmarks (τ-bench, AgentBench, WebArena) are fixed, hand-curated sets built to *measure* models. This is a **curriculum generator** built to *train* them — and the three things a training curriculum needs that a benchmark doesn't are exactly what this repo is about:

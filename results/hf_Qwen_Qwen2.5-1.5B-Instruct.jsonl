@@ -1,0 +1,6 @@
+{"task_id": "channel_setup.L1.0001", "template": "channel_setup", "difficulty": "L1", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": true, "reason": "ok", "n_calls": 4}
+{"task_id": "channel_setup.L1.0002", "template": "channel_setup", "difficulty": "L1", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": false, "reason": "collateral channels created: ['growth-ideas-new', 'growth-ideas-new2']", "n_calls": 20}
+{"task_id": "channel_setup.L2.0001", "template": "channel_setup", "difficulty": "L2", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": true, "reason": "ok", "n_calls": 5}
+{"task_id": "channel_setup.L2.0002", "template": "channel_setup", "difficulty": "L2", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": false, "reason": "user 'sofia' is not a member", "n_calls": 5}
+{"task_id": "thread_reply.L3.0001", "template": "thread_reply", "difficulty": "L3", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": false, "reason": "collateral agent posts outside the thread in: ['finance', 'q3-planning']", "n_calls": 20}
+{"task_id": "thread_reply.L3.0002", "template": "thread_reply", "difficulty": "L3", "backend": "hf:Qwen/Qwen2.5-1.5B-Instruct", "passed": false, "reason": "collateral agent posts outside the thread in: ['product']", "n_calls": 4}
