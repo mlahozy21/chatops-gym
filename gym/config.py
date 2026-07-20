@@ -11,10 +11,10 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Config:
-    base_url: str = os.environ.get("CHATOPS_GYM_URL", "http://localhost:8065")
-    admin_username: str = os.environ.get("CHATOPS_GYM_ADMIN", "gym-admin")
-    admin_password: str = os.environ.get("CHATOPS_GYM_ADMIN_PW", "GymAdmin123!")
-    admin_email: str = os.environ.get("CHATOPS_GYM_ADMIN_EMAIL", "gym-admin@example.com")
+    base_url: str = os.environ.get("WORKSPACE_AGENT_GYM_URL", "http://localhost:8065")
+    admin_username: str = os.environ.get("WORKSPACE_AGENT_GYM_ADMIN", "gym-admin")
+    admin_password: str = os.environ.get("WORKSPACE_AGENT_GYM_ADMIN_PW", "GymAdmin123!")
+    admin_email: str = os.environ.get("WORKSPACE_AGENT_GYM_ADMIN_EMAIL", "gym-admin@example.com")
     # The identity the agent under evaluation acts as. Oracle, LLM and control
     # agents all act through this same user — same permissions, same tools.
     agent_username: str = "agent"

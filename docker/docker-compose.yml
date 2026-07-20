@@ -1,10 +1,10 @@
-# chatops-gym environment: a single-container Mattermost (Slack-like OSS app).
+# workspace-agent-gym environment: a single-container Mattermost (Slack-like OSS app).
 # The environment is a commodity here — the curriculum, graders and validation
 # harness are the project. One `docker compose up -d` and you're done.
 services:
   mattermost:
     image: mattermost/mattermost-preview:latest
-    container_name: chatops-gym-mm
+    container_name: workspace-agent-gym-mm
     ports:
       - "8065:8065"
     environment:

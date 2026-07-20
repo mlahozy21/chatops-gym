@@ -96,7 +96,7 @@ class HFBackend(Backend):
     def __init__(self, model: str = "Qwen/Qwen2.5-0.5B-Instruct"):
         import torch  # lazy: heavy deps only if this backend is used
         from transformers import AutoModelForCausalLM, AutoTokenizer
-        dtype = getattr(torch, os.environ.get("CHATOPS_GYM_HF_DTYPE", "bfloat16"))
+        dtype = getattr(torch, os.environ.get("WORKSPACE_AGENT_GYM_HF_DTYPE", "bfloat16"))
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForCausalLM.from_pretrained(
             model, dtype=dtype, device_map="cpu")

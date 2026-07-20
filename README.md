@@ -1,6 +1,6 @@
-# chatops-gym
+# workspace-agent-gym
 
-[![validate-curriculum](https://github.com/mlahozy21/chatops-gym/actions/workflows/validate.yml/badge.svg)](https://github.com/mlahozy21/chatops-gym/actions)
+[![validate-curriculum](https://github.com/mlahozy21/workspace-agent-gym/actions/workflows/validate.yml/badge.svg)](https://github.com/mlahozy21/workspace-agent-gym/actions)
 
 **A verifiable-task curriculum generator for RL training of software agents**, built on a real Slack-like application (Mattermost) running in a single Docker container.
 
